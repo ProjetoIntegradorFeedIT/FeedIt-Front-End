@@ -29,7 +29,7 @@ export const Tela = styled.Image`
     position: absolute;
 `;
 export const Title = styled.Text`
-  color: ${theme.COLORS.WHITE};
+  color: ${theme.COLORS.BLACK};
   font-size: 40px;
   font-weight: bold;
   margin-bottom: 40px;

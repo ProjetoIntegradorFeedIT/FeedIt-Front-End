@@ -17,18 +17,16 @@ export const Container = styled.View`
   align-items: center;
   justify-content: center;
   
-  
 `;
 export const Title = styled.Text`
   color: ${theme.COLORS.BLACK};
   font-size: 40px;
   font-weight: bold;
-  margin-left: 20px;
+  align-items: center;
 `;
 export const Input = styled.TextInput`
-  flex-direction: row;
   background-color: ${theme.COLORS.WHITE};
-  padding: 10px;
+  padding: 4px;
   border-radius: 20px;
   width: 250px;
   border: 2px solid ${theme.COLORS.BLACK};
@@ -36,9 +34,8 @@ export const Input = styled.TextInput`
 export const ContainerInput = styled.View`
   gap: 8px;
   margin-top: 40px;
-  
 `;
-export const Botaoconfirma = styled.View`
+export const BotaoConfirma = styled.TouchableOpacity`
   margin-top: 40px;
   background-color: ${theme.COLORS.GREEN_100};
   border-radius: 30px;
@@ -49,28 +46,36 @@ export const Texto = styled.Text`
   color: ${theme.COLORS.BLACK};
   font-size: 20px;
   font-weight: bold;
-  padding: 10px;
+  padding: 4px;
   border-radius: 30px;
   width: 175px;
   text-align: center;
-`;
-export const Botaoolho = styled.View`
-  position: relative;
-  align-items:flex-end;
-  margin-right: 20px;
-  margin-top: -46px;
-  margin-bottom: 10px;
 `;
 export const Tela = styled.Image`
     height: 100%;
     width: 100%;
     position: absolute;
-    
-    
 `;
 export const TitleInput = styled.Text`
   color: ${theme.COLORS.WHITE};
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   margin-left: 16px;
+`;
+export const BotaoOlho = styled.TouchableOpacity`
+  position: relative;
+  align-items:flex-end;
+`;
+export const ViewInput = styled.View`
+  background-color: ${theme.COLORS.WHITE};
+  padding: 4px;
+  border-radius: 20px;
+  width: 250px;
+  border: 2px solid ${theme.COLORS.BLACK};
+  flex-direction: row;
+  align-items: center;
+`;
+export const InputSenha = styled.TextInput  `
+  width: 200px;
+  
 `;

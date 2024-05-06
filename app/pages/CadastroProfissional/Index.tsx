@@ -1,6 +1,6 @@
 
-import { Text, View } from 'react-native';
-import { Container, Title, Input, ContainerInput, Botaoconfirma, Texto, TitleInput, Tela, Botaoolho } from './style';
+import { View, Button } from 'react-native';
+import { Container, Title, Input, ContainerInput, BotaoConfirma, Texto, TitleInput, Tela, BotaoOlho, InputSenha, ViewInput } from './style';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -14,7 +14,14 @@ export default function CadastroProfissional({navigation}: any) {
     const [Nome, setNome] = useState('');
     const [Email, setEmail] = useState('');
     const [Senha, setSenha] = useState('');
-    const [ConfirmaSenha, setConfirmaSenha] = useState('');
+    const [ConfSenha, setConfSenha] = useState('');
+    const [MostrarSenha, setMostrarSenha] = useState(false);
+    const [MostrarConfSenha, setMostrarConfSenha] = useState(false);
+
+    const ativarMostrarSenha = () => {
+        setMostrarSenha(!MostrarSenha);
+        setMostrarConfSenha(!MostrarConfSenha);
+      };
 
     const handlePress = () => {
         navigation.navigate('NavegacaoTestes');
@@ -28,6 +35,9 @@ export default function CadastroProfissional({navigation}: any) {
         if (temCaracteresEspeciais(Nome)) {
             alert('Nome não pode conter caracteres especiais')
         }
+    function EsconderSenha (){
+        
+    }
     };
     
 
@@ -45,18 +55,22 @@ export default function CadastroProfissional({navigation}: any) {
                     <TitleInput>CPF</TitleInput>
                     <Input/>
                     <TitleInput>Senha</TitleInput>
-                    <Input/>
-                    <Botaoolho><FontAwesome5 name="eye" size={24} color="black" /></Botaoolho>
-                    <TitleInput>Confirmar senha</TitleInput>
-                    <Input/>
-                    <Botaoolho><FontAwesome5 name="eye" size={24} color="black" /></Botaoolho>
+                    <ViewInput>
+                        <InputSenha secureTextEntry={!MostrarSenha} value={Senha} onChangeText={setSenha}/>
+                        <BotaoOlho onPress={ativarMostrarSenha}><FontAwesome5 name="eye" size={16} color="black" /></BotaoOlho>
+                    </ViewInput>
+                        <TitleInput>Confirmar senha</TitleInput>
+                    <ViewInput>
+                        <InputSenha secureTextEntry={!MostrarConfSenha} value={ConfSenha} onChangeText={setConfSenha}/>
+                        <BotaoOlho onPress={ativarMostrarSenha}><FontAwesome5 name="eye" size={16} color="black" /></BotaoOlho>
+                    </ViewInput>
                     
                 </ContainerInput>
             </View>
             <View>
-                <Botaoconfirma>
+                <BotaoConfirma>
                     <TouchableOpacity onPress={verificaCaracteres}><Texto>Criar Perfil</Texto></TouchableOpacity>
-                </Botaoconfirma>
+                </BotaoConfirma>
                 
             </View>
         </Container>

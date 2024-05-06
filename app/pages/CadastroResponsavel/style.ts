@@ -17,7 +17,6 @@ export const Container = styled.View`
   align-items: center;
   justify-content: center;
   
-  
 `;
 export const Title = styled.Text`
   color: ${theme.COLORS.BLACK};
@@ -27,7 +26,7 @@ export const Title = styled.Text`
 `;
 export const Input = styled.TextInput`
   background-color: ${theme.COLORS.WHITE};
-  padding: 10px;
+  padding: 4px;
   border-radius: 20px;
   width: 250px;
   border: 2px solid ${theme.COLORS.BLACK};
@@ -47,7 +46,7 @@ export const Texto = styled.Text`
   color: ${theme.COLORS.BLACK};
   font-size: 20px;
   font-weight: bold;
-  padding: 10px;
+  padding: 4px;
   border-radius: 30px;
   width: 175px;
   text-align: center;
@@ -59,11 +58,24 @@ export const Tela = styled.Image`
 `;
 export const TitleInput = styled.Text`
   color: ${theme.COLORS.WHITE};
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   margin-left: 16px;
 `;
-export const Botaoolho = styled.View`
+export const BotaoOlho = styled.TouchableOpacity`
   position: relative;
   align-items:flex-end;
+`;
+export const ViewInput = styled.View`
+  background-color: ${theme.COLORS.WHITE};
+  padding: 4px;
+  border-radius: 20px;
+  width: 250px;
+  border: 2px solid ${theme.COLORS.BLACK};
+  flex-direction: row;
+  align-items: center;
+`;
+export const InputSenha = styled.TextInput  `
+  width: 200px;
+  
 `;
