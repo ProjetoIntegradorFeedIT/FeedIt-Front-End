@@ -8,6 +8,7 @@ export default function NavegacaoTestes({navigation}: any) {
             <Button title="Home" onPress={() => navigation.navigate('Home')}/>
             <Button title="Login" onPress={() => navigation.navigate('Login')}/>
             <Button title="CriancaMain" onPress={() => navigation.navigate('CriancaMain')}/>
+            <Button title="CadastroBi" onPress={() => navigation.navigate('CadastroBi')}/>
         </View>
     );
 }

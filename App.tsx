@@ -6,8 +6,11 @@ import Home from './app/pages/Home/Index';
 import Login from './app/pages/Login/Index';
 import CrincaMain from './app/pages/CriancaMain/Index';
 import GuardaRoupa from './app/pages/GuardaRoupa/Index';
-
+import CadastroBi from './app/pages/CadastroBi/Index';
+import CadastroResponsavel from './app/pages/CadastroResponsavel/Index';
+import CadastroProfissional from './app/pages/CadastroProfissional/Index';
 import NavegacaoTestes from './app/pages/NavegacaoTestes/Index';
+
 // -------------------------------------------------------------
 
 
@@ -22,6 +25,9 @@ export default function App() {
         <Stack.Screen name="NavegacaoTestes" component={NavegacaoTestes} options={{headerShown: false}}/>
         <Stack.Screen name="CriancaMain" component={CrincaMain} options={{headerShown: false}}/>
         <Stack.Screen name="GuardaRoupa" component={GuardaRoupa} options={{headerShown: false}}/>
+        <Stack.Screen name="CadastroBi" component={CadastroBi} options={{headerShown: false}}/>
+        <Stack.Screen name="CadastroResponsavel" component={CadastroResponsavel} options={{headerShown: false}}/>
+        <Stack.Screen name="CadastroProfissional" component={CadastroProfissional} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
