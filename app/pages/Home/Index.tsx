@@ -1,7 +1,7 @@
-import React from 'react';
 import { Container, Tela} from './style';
 
 // imagens---------------------------------------------
+// import homeBackground from '../../../assets/homeImage.png';
 const homeBackground = require('../../../assets/homeImage.png');
 // -----------------------------------------------------
 
