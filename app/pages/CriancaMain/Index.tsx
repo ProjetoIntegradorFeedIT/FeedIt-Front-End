@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Text, View, Image, Modal, TouchableOpacity } from 'react-native';
 import theme from '../../themes/theme';
-import { BotaoMenuAberto, BotaoMenuFechado, Dinheiro, Container, DisplayElementos, Footer, FooterDetailH, FooterDetailV, FooterDir, FooterEsq, Valor, Topo, MenuSuperior, FechaModalStyle, Linha } from './styles';
+import { BotaoMenuAberto, BotaoMenuFechado, Dinheiro, Container, DisplayElementos, Footer, FooterDetailH, FooterDetailV, FooterDir, FooterEsq, Valor, Topo, MenuSuperior, FechaModalStyle, Linha, Meio, Chao, Rodape } from './styles';
 import Icon from '@expo/vector-icons/FontAwesome5'
 
 // import de images
@@ -67,6 +67,12 @@ export default function CrincaMain( {navigation}: any ) {
         </Dinheiro>
       </Topo>
       {/* -------------- */}
+      {/* Meio da Tela ----------------------------------------------- */}
+      <Meio>
+        <Rodape/>
+        <Chao/>
+      </Meio>
+      {/* ------------------------------------------------------------ */}
       {/*Footer ------------------------------------------------*/}
       <Footer>
         <FooterDetailH/>
