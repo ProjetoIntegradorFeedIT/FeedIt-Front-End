@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Text, View, Image, Modal, TouchableOpacity } from 'react-native';
 import theme from '../../themes/theme';
 import { BotaoMenuAberto, BotaoMenuFechado, Dinheiro, Container, DisplayElementos, Footer, FooterDetailH, FooterDetailV, FooterDir, FooterEsq, Valor, Topo, MenuSuperior, FechaModalStyle, Linha, Meio, Chao, Rodape } from './styles';
-import Icon from '@expo/vector-icons/FontAwesome5'
+import Icon from '@expo/vector-icons/FontAwesome5';
 
 // import de images
 const IconeMoeda = require('../../../assets/moedas.png');
@@ -27,6 +27,9 @@ export default function CrincaMain( {navigation}: any ) {
   function goToGuardaRoupa(){
     setModalVisible(!modalVisible);
     navigation.navigate('GuardaRoupa');
+  }
+  function openCamera() {
+    navigation.navigate('Camera');
   }
   // ---------------
 
@@ -85,7 +88,9 @@ export default function CrincaMain( {navigation}: any ) {
           </FooterEsq>
           <FooterDetailV/>
           <FooterDir>
-            <Icon name="camera" size={100} color={theme.COLORS.YELLOW_100}/>
+          <TouchableOpacity onPress={openCamera}>
+            <Icon name="camera" size={100} color={theme.COLORS.YELLOW_100} />
+          </TouchableOpacity>
           </FooterDir>
         </DisplayElementos>
       </Footer>
