@@ -1,6 +1,32 @@
 import styled from 'styled-components/native';
 import theme from '../../themes/theme';
 
+export const Rodape = styled.View`
+    background-color: ${theme.COLORS.WHITE};
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 5%;
+`;
+
+export const Chao = styled.View`
+    background-color: #CDB767;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 20%;
+`;
+
+export const Meio = styled.View` 
+    align-items: center;
+    justify-content: flex-end;
+    border-color: ${theme.COLORS.RED_100};
+    border-width: 2px;
+    width: 100%;
+    height: 70%;
+    margin-top: 20px;
+`;
+
 export const Linha = styled.View`
     width: 100%;
     height: 2px;
@@ -82,7 +108,7 @@ export const Footer = styled.View`
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 140px;
+  height: 16%;
   background-color: #366DFC;
   align-items: center;
   justify-content: flex-start;
