@@ -11,6 +11,7 @@ import CadastroResponsavel from './app/pages/CadastroResponsavel/Index';
 import CadastroProfissional from './app/pages/CadastroProfissional/Index';
 import NavegacaoTestes from './app/pages/NavegacaoTestes/Index';
 import Camera from './app/pages/Camera/Index';
+import CadastroValidacao from './app/pages/CadastroValidacao/Index';
 // -------------------------------------------------------------
 
 
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Screen name="CadastroResponsavel" component={CadastroResponsavel} options={{headerShown: false}}/>
         <Stack.Screen name="CadastroProfissional" component={CadastroProfissional} options={{headerShown: false}}/>
         <Stack.Screen name="Camera" component={Camera} options={{headerShown: false}}/>
+        <Stack.Screen name="CadastroValidacao" component={CadastroValidacao} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
