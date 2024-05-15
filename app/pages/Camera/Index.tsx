@@ -5,6 +5,7 @@ import { Cima, Esquerda, Direita, Baixo } from './styles';
 import theme from '../../themes/theme';
 import { Dimensions } from 'react-native';
 import Icon from '@expo/vector-icons/FontAwesome5';
+import axios from 'axios';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -33,7 +34,19 @@ export default function App() {
   async function takePicture() {
     if(cameraRef){
         const photo = await cameraRef.current.takePictureAsync(options);
-        console.log(photo.base64);
+        // console.log(photo.base64);
+        const postData = {
+          base64: photo.base64,
+        };
+        axios.post('http://localhost:8000/img_recog/verificar', postData)
+        .then((response: { data: any; }) => {
+          // Manipule a resposta aqui
+          console.log('Resposta do servidor:', response.data);
+        })
+        .catch((error: any) => {
+          // Manipule o erro aqui
+          console.error('Erro ao fazer requisição:', error);
+        });
     }
   }
 
@@ -44,9 +57,12 @@ export default function App() {
         ref = {cameraRef}
       >
         <View style = {styles.bordas}></View>
-        <Baixo onPress={() => {takePicture()}}>
+        {/* <Baixo onPress={() => takePicture()}>
           <Icon name="camera" size={100} color={theme.COLORS.YELLOW_100} />
-        </Baixo>
+        </Baixo> */}
+        <TouchableOpacity style={styles.baixo} onPress={() => takePicture()}>
+          <Icon name="camera" size={100} color={theme.COLORS.YELLOW_100} />
+        </TouchableOpacity>
       </CameraView>
     </View>
   );
@@ -67,4 +83,13 @@ const styles = StyleSheet.create({
     borderLeftWidth: (windowWidth * 4) / 100,
     borderRightWidth: (windowWidth * 4) / 100,
   },
+  baixo: {
+    backgroundColor: theme.COLORS.BLUE_200,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: 0,
+    width: '100%',
+    paddingVertical: 16,
+  }
 });
