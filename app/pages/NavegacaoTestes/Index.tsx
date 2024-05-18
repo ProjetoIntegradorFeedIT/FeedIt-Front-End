@@ -10,6 +10,7 @@ export default function NavegacaoTestes({navigation}: any) {
             <Button title="CriancaMain" onPress={() => navigation.navigate('CriancaMain')}/>
             <Button title="CadastroBi" onPress={() => navigation.navigate('CadastroBi')}/>
             <Button title="CadastroValidacao" onPress={() => navigation.navigate('CadastroValidacao')}/>
+            <Button title="ResponsavelMain" onPress={() => navigation.navigate('ResponsavelMain')}/>
         </View>
     );
 }
