@@ -5,6 +5,7 @@ import { Cima, Esquerda, Direita, Baixo } from './styles';
 import theme from '../../themes/theme';
 import { Dimensions } from 'react-native';
 import Icon from '@expo/vector-icons/FontAwesome5';
+import axios from 'axios';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -33,7 +34,17 @@ export default function Camera() {
   async function takePicture() {
     if(cameraRef){
         const photo = await cameraRef.current.takePictureAsync(options);
-        console.log(photo.base64);
+        // console.log(photo.base64);
+        const postData = {
+          base64: photo.base64,
+        };
+        axios.post('https://www.gmerola.com.br/feedit/api/img_recog/verificar')
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.error("Erro ao fazer a requisição: ", error);
+        });
     }
   }
 
@@ -44,9 +55,12 @@ export default function Camera() {
         ref = {cameraRef}
       >
         <View style = {styles.bordas}></View>
-        <Baixo onPress={() => {takePicture()}}>
+        {/* <Baixo onPress={() => takePicture()}>
           <Icon name="camera" size={100} color={theme.COLORS.YELLOW_100} />
-        </Baixo>
+        </Baixo> */}
+        <TouchableOpacity style={styles.baixo} onPress={() => takePicture()}>
+          <Icon name="camera" size={100} color={theme.COLORS.YELLOW_100} />
+        </TouchableOpacity>
       </CameraView>
     </View>
   );
@@ -67,4 +81,13 @@ const styles = StyleSheet.create({
     borderLeftWidth: (windowWidth * 4) / 100,
     borderRightWidth: (windowWidth * 4) / 100,
   },
+  baixo: {
+    backgroundColor: theme.COLORS.BLUE_200,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: 0,
+    width: '100%',
+    paddingVertical: 16,
+  }
 });
