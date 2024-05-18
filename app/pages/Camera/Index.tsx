@@ -11,7 +11,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const borderWidthPercentage = 10;
 
-export default function App() {
+export default function Camera() {
   const cameraRef = useRef(null);
   const [permission, requestPermission] = useCameraPermissions();
   const options = { quality: 0.5, base64: true };
@@ -38,14 +38,12 @@ export default function App() {
         const postData = {
           base64: photo.base64,
         };
-        axios.post('http://localhost:8000/img_recog/verificar', postData)
-        .then((response: { data: any; }) => {
-          // Manipule a resposta aqui
-          console.log('Resposta do servidor:', response.data);
-        })
-        .catch((error: any) => {
-          // Manipule o erro aqui
-          console.error('Erro ao fazer requisição:', error);
+        axios.post('https://www.gmerola.com.br/feedit/api/img_recog/verificar')
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.error("Erro ao fazer a requisição: ", error);
         });
     }
   }
