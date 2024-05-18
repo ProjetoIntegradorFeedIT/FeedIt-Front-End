@@ -24,6 +24,7 @@ export const Title = styled.Text`
   font-size: 40px;
   font-weight: bold;
   align-items: center;
+  align-self: center;
 `;
 
 export const Input = styled.TextInput`
