@@ -1,16 +1,19 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Title, Texto, Input, Button, Container, Tela, ContainerInput, SubTitle } from "./style";
 import { useState } from "react";
+import axios from "axios";
 
 // imagens---------------------------------------------
 const Background = require('../../../assets/nuvens.png');
 
-export default function CadastroValidacao() {
+export default function CadastroValidacao({route} : any) {
   const [caracter1, setCaracter1] = useState('');
   const [caracter2, setCaracter2] = useState('');
   const [caracter3, setCaracter3] = useState('');
   const [caracter4, setCaracter4] = useState('');
   const [caracter5, setCaracter5] = useState('');
+
+  const { Nome, Email, Senha, Cpf } = route.params;
 
   const inputRefs = [
     useRef(),
@@ -45,6 +48,30 @@ export default function CadastroValidacao() {
         break;
     }
   };
+
+  function cadastrar() {
+    if (caracter1 === '' || caracter2 === '' || caracter3 === '' || caracter4 === '' || caracter5 === '') {
+      alert('Preencha todos os campos');
+      return;
+    }
+    axios.post('https://www.gmerola.com.br/feedit/api/cadastro/responsavel_codigo', {
+          nome: Nome,
+          email: Email,
+          senha: Senha,
+          cpf: Cpf,
+          codigo: `${caracter1}${caracter2}${caracter3}${caracter4}${caracter5}`,
+          // cpf: Cpf.replace(/\D/g, ''), // Remove todos os caracteres não numéricos do CPF
+      }).then(response => {
+          alert('Cadastro realizado com sucesso');
+      }).catch(error => {
+          alert('Erro ao cadastrar');
+          console.error('Erro ao fazer a requisição: ', error);
+      });
+  }
+
+  useEffect(() => {
+    console.log(Nome, Email, Senha, Cpf);
+  }, []);
 
   return (
     <Container>
@@ -83,7 +110,7 @@ export default function CadastroValidacao() {
           onChangeText={(value) => handleChange(4, value)}
         />
       </ContainerInput>
-      <Button>
+      <Button onPress={() => cadastrar()}>
         <Texto>Validar</Texto>
       </Button>
     </Container>

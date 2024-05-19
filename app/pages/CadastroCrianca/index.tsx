@@ -1,5 +1,5 @@
 import { View, Button, Alert } from 'react-native';
-import { Container, Title, Input, ContainerInput, Botaoconfirma, Texto, Tela, TitleInput, BotaoOlho, ViewInput, InputSenha } from './style';
+import { Container, Title, Input, ContainerInput, BotaoConfirma, Texto, Tela, TitleInput, BotaoOlho, ViewInput, InputSenha } from './style';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -10,15 +10,14 @@ const Background = require('../../../assets/nuvens.png');
 
 // -----------------------------------------------------
 
-export default function CadastroProfissional({navigation}: any) {
+export default function CadastroCrianca({navigation}: any) {
     const [Nome, setNome] = useState('');
-    const [Email, setEmail] = useState('');
     const [Senha, setSenha] = useState('');
     const [ConfSenha, setConfSenha] = useState('');
-    const [Cpf, setCpf] = useState('');
     const [MostrarSenha, setMostrarSenha] = useState(false);
     const [MostrarConfSenha, setMostrarConfSenha] = useState(false);
     const [IconeOlho, setIconeOlho] = useState('eye-slash');
+
 
     const ativarMostrarSenha = () => {
         setMostrarSenha(!MostrarSenha);
@@ -35,14 +34,8 @@ export default function CadastroProfissional({navigation}: any) {
         if (temCaracteresEspeciais(Nome)) {
             alert('Nome não pode conter caracteres especiais')
         }
-        if (!regex.test(Email)) {
-          Alert.alert('Endereço de e-mail inválido');
-        }
         if (Senha !== ConfSenha) {
           Alert.alert('Senhas não conferem');
-        }
-        if (Cpf.length !== 14) {
-          Alert.alert('CPF inválido');
         }
       };
 
@@ -50,32 +43,19 @@ export default function CadastroProfissional({navigation}: any) {
         return /[^\w\s]/.test(string);
     }
 
-    function formatarCPF(cpf: string): string {
-        cpf = cpf.replace(/\D/g, ''); // Remove tudo que não é dígito
-        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Coloca um ponto depois dos primeiros 3 dígitos
-        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Coloca um ponto depois dos segundos 3 dígitos
-        cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Coloca um traço antes dos últimos 2 dígitos
-        return cpf;
-    }
-
-    function handleChangeCpf(text: string) {
-        if (text.length <= 14) {
-            setCpf(formatarCPF(text));
-        }
-    }
-
     function cadastrar(){
-        if (Nome === '' || Email === '' || Senha === '' || ConfSenha === '' || Cpf === '') {
+        if (Nome === '' || Senha === '' || ConfSenha === '') {
             alert('Preencha todos os campos');
         } else {
             validaConta();
         }
         axios.post('https://www.gmerola.com.br/feedit/api/cadastro/responsavel_email', {
-            email: Email,
+            Nome: Nome,
+            Senha: Senha,
         }).then(response => {
         }).catch(error => {
         });
-        navigation.navigate('CadastroValidacao', {Nome: Nome, Email: Email, Senha: Senha, Cpf: Cpf});
+        navigation.navigate('CadastroValidacao', {Nome: Nome, Senha: Senha});
     };
     
     return (
@@ -83,15 +63,10 @@ export default function CadastroProfissional({navigation}: any) {
             <Tela source={Background}/>
             <Title>Cadastro</Title>
             <View>
-                
                 <ContainerInput>
-                    <TitleInput>Nome</TitleInput>
+                    <TitleInput>Nome da criança</TitleInput>
                     <Input onChangeText={(text) => setNome(text)}/>
-                    <TitleInput>Email</TitleInput>
-                    <Input value={Email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none"/>
-                    <TitleInput>Cpf</TitleInput>
-                    <Input value={Cpf} onChangeText={handleChangeCpf} keyboardType="numeric"/>
-                    <TitleInput>Senha</TitleInput>
+                    <TitleInput>Senha da criança</TitleInput>
                     <ViewInput>
                         <InputSenha secureTextEntry={!MostrarSenha} value={Senha} onChangeText={setSenha}/>
                         <BotaoOlho onPress={ativarMostrarSenha}><FontAwesome5 name={IconeOlho} size={16} color="black" /></BotaoOlho>
@@ -104,9 +79,9 @@ export default function CadastroProfissional({navigation}: any) {
                 </ContainerInput>
             </View>
             <View>
-                <Botaoconfirma>
+                <BotaoConfirma>
                     <TouchableOpacity onPress={cadastrar}><Texto>Criar Perfil</Texto></TouchableOpacity>
-                </Botaoconfirma>
+                </BotaoConfirma>
                 
             </View>
         </Container>

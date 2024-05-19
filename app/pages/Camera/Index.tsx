@@ -11,7 +11,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const borderWidthPercentage = 10;
 
-export default function App() {
+export default function Camera() {
   const cameraRef = useRef(null);
   const [permission, requestPermission] = useCameraPermissions();
   const options = { quality: 0.5, base64: true };
