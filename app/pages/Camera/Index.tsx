@@ -36,9 +36,9 @@ export default function App() {
         const photo = await cameraRef.current.takePictureAsync(options);
         // console.log(photo.base64);
         const postData = {
-          base64: photo.base64,
+          imagem: photo.base64,
         };
-        axios.post('http://localhost:8000/img_recog/verificar', postData)
+        axios.post('https://www.gmerola.com.br/feedit/api/img_recog/verificar', postData)
         .then((response: { data: any; }) => {
           // Manipule a resposta aqui
           console.log('Resposta do servidor:', response.data);
