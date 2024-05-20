@@ -7,6 +7,7 @@ export const Rodape = styled.View`
     justify-content: center;
     width: 100%;
     height: 5%;
+    z-index: 0;
 `;
 
 export const Chao = styled.View`
@@ -15,13 +16,12 @@ export const Chao = styled.View`
     justify-content: center;
     width: 100%;
     height: 20%;
+    z-index: 0;
 `;
 
 export const Meio = styled.View` 
     align-items: center;
     justify-content: flex-end;
-    border-color: ${theme.COLORS.RED_100};
-    border-width: 2px;
     width: 100%;
     height: 70%;
     margin-top: 20px;
