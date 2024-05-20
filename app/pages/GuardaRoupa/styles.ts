@@ -27,3 +27,10 @@ export const Baixo = styled.View`
     padding: 10px;
     height: 65%;
 `;
+
+export const Armazem = styled.View`
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+`;
