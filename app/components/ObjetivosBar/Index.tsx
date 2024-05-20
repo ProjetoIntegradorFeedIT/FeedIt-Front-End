@@ -1,11 +1,18 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import theme from '../../themes/theme';
+import { green } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
+
+// Imagem
+const IconeMoeda = require('../../../assets/moedas.png');
 
 // Define a interface para os props (coloque aqui os dados que serão passados para o componente)
 interface ObjetivosBarProps {
     objetivoName: string;
-    porcentagem: number;
+    tamanho: number;
+    progresso: number;
+    valor: number;
+    tipo: string;
 }
 
 export default function ObjetivosBar(props: ObjetivosBarProps) {
@@ -16,9 +23,13 @@ export default function ObjetivosBar(props: ObjetivosBarProps) {
             </View>
             <View style={styles.barras}>
                 <View style={styles.barraNula}>
-                    <View style={styles.barraPreenchimento}></View>
+                    <View style={{width: props.progresso === 0 ? 0 : props.progresso/props.tamanho*200, height: 8, backgroundColor: "green", borderRadius: 90}}></View>
                 </View>
-                <Text style={{color: theme.COLORS.WHITE}}>0/{props.porcentagem}</Text>
+                <Text style={{color: theme.COLORS.WHITE}}>{props.progresso}/{props.tamanho}</Text>
+                <View style={styles.moedas}>
+                  <Image source={IconeMoeda} style={{width: 20, height: 20}}/>
+                  <Text style={{color: theme.COLORS.WHITE}}>{props.valor}</Text>
+                </View>
             </View>
         </View>
     );
@@ -60,6 +71,11 @@ const styles = StyleSheet.create({
       height: 8,
       backgroundColor: "green",
       borderRadius: 90,
+    },
+    moedas: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 2,
     }
   });
   

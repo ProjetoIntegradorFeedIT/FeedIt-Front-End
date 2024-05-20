@@ -13,8 +13,8 @@ import NavegacaoTestes from './app/pages/NavegacaoTestes/Index';
 import Camera from './app/pages/Camera/Index';
 import CadastroValidacao from './app/pages/CadastroValidacao/Index';
 import ResponsavelMain from './app/pages/ResponsavelMain';
+import TelaProfissional from './app/pages/TelaProfissional/Index';
 import CadastroCrianca from './app/pages/CadastroCrianca';
-
 // -------------------------------------------------------------
 
 
@@ -35,6 +35,7 @@ export default function App() {
         <Stack.Screen name="Camera" component={Camera} options={{headerShown: false}}/>
         <Stack.Screen name="CadastroValidacao" component={CadastroValidacao} options={{headerShown: false}}/>
         <Stack.Screen name="ResponsavelMain" component={ResponsavelMain} options={{headerShown: false}}/>
+        <Stack.Screen name="TelaProfissional" component={TelaProfissional} options={{headerShown: false}}/>
         <Stack.Screen name="CadastroCrianca" component={CadastroCrianca} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
