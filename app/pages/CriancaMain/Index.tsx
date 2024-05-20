@@ -3,6 +3,7 @@ import { Text, View, Image, Modal, TouchableOpacity } from 'react-native';
 import theme from '../../themes/theme';
 import { BotaoMenuAberto, BotaoMenuFechado, Dinheiro, Container, DisplayElementos, Footer, FooterDetailH, FooterDetailV, FooterDir, FooterEsq, Valor, Topo, MenuSuperior, FechaModalStyle, Linha, Meio, Chao, Rodape } from './styles';
 import Icon from '@expo/vector-icons/FontAwesome5';
+import { FaSpinner } from "react-icons/fa";
 import axios from 'axios';
 
 // import de images
@@ -15,6 +16,7 @@ const Menu = require('../../../assets/menu.png');
 import StatuBar from '../../components/StatusBar/Index';
 import ObjetivosBar from '../../components/ObjetivosBar/Index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spinner from '../../components/Spinner/Index';
 // ---------------------
 
 export default function CrincaMain( {navigation}: any ) {
@@ -32,6 +34,7 @@ export default function CrincaMain( {navigation}: any ) {
   const [roupa, setRoupa] = useState('');
   const [fundo, setFundo] = useState('');
   const [id_crianca, setIdCrianca] = useState(0);
+  const [missoes, setMissoes] = useState<any[] | null>(null);
   // -------------------------------------------------------
   // const functions ----------------------------------------
   const getObject = async (key: string) => {
@@ -42,18 +45,20 @@ export default function CrincaMain( {navigation}: any ) {
       console.error(e);
     }
   };
+
   // -------------------------------------------------------
   // Funções -------
   function popUpMenu(){
+    attMissoes();
     setModalVisible(!modalVisible);
-  }
+  };
   function goToGuardaRoupa(){
     setModalVisible(!modalVisible);
     navigation.navigate('GuardaRoupa');
-  }
+  };
   function openCamera() {
     navigation.navigate('Camera');
-  }
+  };
   function validate(){
     getObject('usuario').then((value) => {
       if(value === null){
@@ -64,10 +69,11 @@ export default function CrincaMain( {navigation}: any ) {
         getPet(value.id_crianca);
       }
     });
-  }
+  };
   function getPet(id: number) {
     axios.get('https://www.gmerola.com.br/feedit/api/crianca/info_crianca/'+ id)
     .then(response => {
+      console.log(response.data);
       setNivel(response.data['crianca'].nivel);
       setXpAtual(response.data['crianca'].xp_atual);
       setXpNecessario(response.data['crianca'].xp_necessario);
@@ -79,11 +85,25 @@ export default function CrincaMain( {navigation}: any ) {
       setChapeu(response.data['crianca'].chapeu);
       setRoupa(response.data['crianca'].roupa);
       setFundo(response.data['crianca'].fundo);
-      console.log(response.data['crianca']);
     }).catch(error => {
       console.error("Erro ao fazer a requisição: ", error);
     });
-  }
+  };
+  function attMissoes(){
+    axios.post("https://www.gmerola.com.br/feedit/api/missoes/gerenciar", {
+      id_crianca: id_crianca
+    })
+    .then(response => {
+      axios.get("https://www.gmerola.com.br/feedit/api/crianca/missao_pet/"+id_crianca)
+      .then(response => {
+        setMissoes(response.data);
+      }).catch(error => {
+        console.error("Erro ao fazer a requisição: ", error);
+      });
+    }).catch(error => {
+      console.error("Erro ao fazer a requisição: ", error);
+    });
+  };
   // ---------------
   // UseEffect
   useEffect(() => {
@@ -101,12 +121,21 @@ export default function CrincaMain( {navigation}: any ) {
             <FechaModalStyle onPress={popUpMenu}><Text style={{fontSize: 32, fontWeight: 'bold'}}>X</Text></FechaModalStyle>
             <Linha/>
             <View style={{paddingBottom: 8, paddingTop: 16, width: '100%', flexDirection: 'column', alignItems: 'center'}}>
-              <Text style={{fontSize: 28, color: theme.COLORS.WHITE, fontWeight: 'bold', marginBottom: 4}}>Objetivos Semanais</Text>
-              <ObjetivosBar objetivoName='Teste' porcentagem={50}></ObjetivosBar>
-              <ObjetivosBar objetivoName='Teste' porcentagem={50}></ObjetivosBar>
-              <ObjetivosBar objetivoName='Teste' porcentagem={50}></ObjetivosBar>
-              <ObjetivosBar objetivoName='Teste' porcentagem={50}></ObjetivosBar>
-              <ObjetivosBar objetivoName='Teste' porcentagem={50}></ObjetivosBar>
+              <Text style={{fontSize: 20, color: theme.COLORS.WHITE, fontWeight: 'bold', marginBottom: 4}}>Objetivos Diarios e Semanais</Text>
+              {missoes === null ? (
+                  <Spinner />
+              ) : (
+                  Object.entries(missoes).map(([missionName, missionDetails]) => (
+                      <ObjetivosBar 
+                          key={missionName} 
+                          objetivoName={missionName} 
+                          tamanho={missionDetails.tamanho} 
+                          progresso={missionDetails.progresso_tarefa} 
+                          valor={missionDetails.valor} 
+                          tipo={missionDetails.tipo}
+                      />
+                  ))
+              )}
             </View>
             <Linha/>
             <View style={{height: '15%', borderBottomEndRadius: 15, borderBottomStartRadius: 15, flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 2}}>
@@ -130,6 +159,15 @@ export default function CrincaMain( {navigation}: any ) {
       {/* -------------- */}
       {/* Meio da Tela ----------------------------------------------- */}
       <Meio>
+        {chapeu === '' ? <Spinner />
+        : 
+          <>
+            <Image source={{ uri: chapeu }} style={{ width: 400, height: 400, position: 'absolute', zIndex: 3}} />
+            <Image source={{ uri: roupa }} style={{ width: 400, height: 400, position: 'absolute', zIndex:2}} />
+            <Image source={{ uri: cor }} style={{ width: 400, height: 400, position: 'absolute', zIndex: 1}} />
+            {/* <Image source={{ uri: fundo }} style={{ width: 400, height: 400, position: 'absolute', zIndex: -1}} /> */}
+          </>
+        }
         <Rodape/>
         <Chao/>
       </Meio>

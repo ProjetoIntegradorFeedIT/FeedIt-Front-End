@@ -55,9 +55,9 @@ export default function Login({ navigation }: any) {
             if (response.data.tipo === 'C') {
                 navigation.navigate('CriancaMain');
             }
-            // else if (response.data.tipo === 'R') {
-            //     navigation.navigate('ResponsavelMain');
-            // }
+            else if (response.data.tipo === 'R') {
+                navigation.navigate('ResponsavelMain');
+            }
             // else if (response.data.tipo === 'P') {
             //     navigation.navigate('ProfissionalMain');
             // }
