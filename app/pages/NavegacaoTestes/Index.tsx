@@ -11,6 +11,7 @@ export default function NavegacaoTestes({navigation}: any) {
             <Button title="CadastroBi" onPress={() => navigation.navigate('CadastroBi')}/>
             <Button title="CadastroValidacao" onPress={() => navigation.navigate('CadastroValidacao')}/>
             <Button title="ResponsavelMain" onPress={() => navigation.navigate('ResponsavelMain')}/>
+            <Button title="TelaProfissional" onPress={() => navigation.navigate('TelaProfissional')}/>
             <Button title="CadastroCrianca" onPress={() => navigation.navigate('CadastroCrianca')}/>
         </View>
     );
