@@ -1,21 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import { Text, View, Image, Modal, TouchableOpacity } from 'react-native';
+import { Text, View, Image, Modal, TouchableOpacity, ImageBackground } from 'react-native';
 import theme from '../../themes/theme';
-import { BotaoMenuAberto, BotaoMenuFechado, Dinheiro, Container, DisplayElementos, Footer, FooterDetailH, FooterDetailV, FooterDir, FooterEsq, Valor, Topo, MenuSuperior, FechaModalStyle, Linha, Meio, Chao, Rodape } from './styles';
+import { BotaoMenuAberto, BotaoMenuFechado, Dinheiro, Container, DisplayElementos, Footer, FooterDetailH, FooterDetailV, FooterDir, FooterEsq, Valor, Topo, MenuSuperior, FechaModalStyle, Linha, Meio, Chao, Rodape, Nivel } from './styles';
 import Icon from '@expo/vector-icons/FontAwesome5';
 import { FaSpinner } from "react-icons/fa";
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import de images
 const IconeMoeda = require('../../../assets/moedas.png');
 const GuardaRoupa = require('../../../assets/guardaRoupa.png');
 const Menu = require('../../../assets/menu.png');
+const Maca = require('../../../assets/maca.png');
 // ---------------
 
 // Import de componentes
 import StatuBar from '../../components/StatusBar/Index';
 import ObjetivosBar from '../../components/ObjetivosBar/Index';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spinner from '../../components/Spinner/Index';
 // ---------------------
 
@@ -146,11 +147,18 @@ export default function CrincaMain( {navigation}: any ) {
           </MenuSuperior>
         </Modal>
         {/* ----------------------- */}
-        {modalVisible ? (
-          <BotaoMenuAberto onPress={popUpMenu}></BotaoMenuAberto>)
-          : 
-          (<BotaoMenuFechado onPress={popUpMenu}><Image source={Menu}/></BotaoMenuFechado>)
-        }
+        <View style={{width: '30%'}}>
+          {modalVisible ? (
+            <BotaoMenuAberto onPress={popUpMenu}></BotaoMenuAberto>)
+            : 
+            (<BotaoMenuFechado onPress={popUpMenu}><Image source={Menu}/></BotaoMenuFechado>)
+          }
+        </View>
+        <Nivel>
+          <ImageBackground source={Maca} style={{ width: 60, height: 60, justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 24, fontWeight: 'bold', color: theme.COLORS.YELLOW_100}}>{nivel}</Text>
+          </ImageBackground>
+        </Nivel>
         <Dinheiro>
           <Valor>000</Valor>
           <Image source={IconeMoeda} style={{width: 50, height: 50}}/>
