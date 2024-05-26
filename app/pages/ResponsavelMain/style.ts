@@ -39,33 +39,23 @@ export const Tela = styled.Image`
     position: absolute;
 `;
 
-export const Texto = styled.Text`
-  color: ${theme.COLORS.WHITE};
-  font-size: 20px;
-  font-weight: bold;
-  padding: 4px;
-  border-radius: 30px;
-  width: 175px;
-  text-align: center;
-`;
-
 export const Botao = styled.TouchableOpacity`
   align-items: center;
   align-self: center;
   color: ${theme.COLORS.WHITE};
 `;
 
-export const SanfonaHeader = styled.View`
-
-    padding: 12px;
-    background-color: ${theme.COLORS.BLUE_200};
+export const AddCriancaBotao = styled.TouchableOpacity`
+    background-color: ${theme.COLORS.GREEN_100};
     border-radius: 12px;
-    margin: 4px;
+    width: 80%;
+    margin: auto;
+    padding: 12px;
+    align-items: center;
 `;
 
-export const SanfonaBody = styled.View`
-    padding: 12px;
-    background-color: ${theme.COLORS.BLUE_300};
-    border-radius: 12px;
-    margin: 4px;
+export const AddCriancaBotaoTexto = styled.Text`
+  color: ${theme.COLORS.WHITE};
+  font-size: 20px;
+  font-weight: bold;
 `;

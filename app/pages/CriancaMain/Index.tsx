@@ -66,6 +66,7 @@ export default function CrincaMain( {navigation}: any ) {
         navigation.navigate('Login');
       }
       else{
+        console.log(value);
         setIdCrianca(value.id_crianca);
         getPet(value.id_crianca);
       }
@@ -91,6 +92,7 @@ export default function CrincaMain( {navigation}: any ) {
     });
   };
   function attMissoes(){
+    console.log(id_crianca);
     axios.post("https://www.gmerola.com.br/feedit/api/missoes/gerenciar", {
       id_crianca: id_crianca
     })

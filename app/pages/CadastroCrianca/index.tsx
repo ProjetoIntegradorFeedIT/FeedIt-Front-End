@@ -1,9 +1,11 @@
 import { View, Button, Alert } from 'react-native';
 import { Container, Title, Input, ContainerInput, BotaoConfirma, Texto, Tela, TitleInput, BotaoOlho, ViewInput, InputSenha } from './style';
 import { FontAwesome5 } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AddCriancaBotao } from '../ResponsavelMain/style';
 
 // imagens---------------------------------------------
 const Background = require('../../../assets/nuvens.png');
@@ -17,7 +19,29 @@ export default function CadastroCrianca({navigation}: any) {
     const [MostrarSenha, setMostrarSenha] = useState(false);
     const [MostrarConfSenha, setMostrarConfSenha] = useState(false);
     const [IconeOlho, setIconeOlho] = useState('eye-slash');
+    const [id_user, setIdUser] = useState('');
 
+    // const functions ----------------------------------------
+    const getObject = async (key: string) => {
+      try {
+        const jsonValue = await AsyncStorage.getItem(key);
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    // -------------------------------------------------------
+
+    function validate(){
+      getObject('usuario').then((value) => {
+        if(value === null){
+          navigation.navigate('Login');
+        }
+        else{
+          setIdUser(value.id_usuario);
+        }
+      });
+    };
 
     const ativarMostrarSenha = () => {
         setMostrarSenha(!MostrarSenha);
@@ -49,14 +73,20 @@ export default function CadastroCrianca({navigation}: any) {
         } else {
             validaConta();
         }
-        axios.post('https://www.gmerola.com.br/feedit/api/cadastro/responsavel_email', {
-            Nome: Nome,
-            Senha: Senha,
+        axios.post('https://www.gmerola.com.br/feedit/api/cadastro/crianca', {
+            "id_user": id_user,
+            "nome": Nome,
+            "senha": Senha
         }).then(response => {
+            alert('Criança cadastrada com sucesso');
+            navigation.navigate('ResponsavelMain');
         }).catch(error => {
         });
-        navigation.navigate('CadastroValidacao', {Nome: Nome, Senha: Senha});
     };
+
+    useEffect(() => {
+        validate();
+    }, []);
     
     return (
         <Container>

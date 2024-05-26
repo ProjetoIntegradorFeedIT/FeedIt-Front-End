@@ -56,11 +56,14 @@ export default function Login({ navigation }: any) {
                 navigation.navigate('CriancaMain');
             }
             else if (response.data.tipo === 'R') {
+                if (response.data.finalizou_crianca === 0) {
+                    navigation.navigate('CadastroCrianca');
+                }
                 navigation.navigate('ResponsavelMain');
             }
-            // else if (response.data.tipo === 'P') {
-            //     navigation.navigate('ProfissionalMain');
-            // }
+            else if (response.data.tipo === 'P') {
+                navigation.navigate('TelaProfissional');
+            }
         }).catch(error => {
             console.error("Erro ao fazer a requisição: ", error);
             alert('Erro ao logar');

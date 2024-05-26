@@ -73,9 +73,9 @@ export default function CadastroProfissional({navigation}: any) {
         axios.post('https://www.gmerola.com.br/feedit/api/cadastro/responsavel_email', {
             email: Email,
         }).then(response => {
+            navigation.navigate('CadastroValidacao', {Nome: Nome, Email: Email, Senha: Senha, Cpf: Cpf});
         }).catch(error => {
         });
-        navigation.navigate('CadastroValidacao', {Nome: Nome, Email: Email, Senha: Senha, Cpf: Cpf});
     };
     
     return (
