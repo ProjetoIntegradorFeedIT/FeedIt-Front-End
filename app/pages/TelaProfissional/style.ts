@@ -4,7 +4,7 @@ import theme from '../../themes/theme';
 export const AreaTela = styled.View`
   flex: 1;
   align-items: center;
-  justify-content: center;
+  
   position: absolute;
   position: top;
   background-color: ${theme.COLORS.BLUE_100};
@@ -17,7 +17,7 @@ export const TelaFundo = styled.Image`
   position: absolute;
 `;
 
-export const TelaPacientes = styled.Image`
+export const TelaPacientes = styled.View`
   width: 84%;
   height: 52%;
   border: 1px;
@@ -79,14 +79,4 @@ export const Texto = styled.Text`
   border-radius: 30px;
   width: 175px;
   text-align: center;
-;`
-
-export const ViewInput = styled.View`
-  background-color: ${theme.COLORS.WHITE};
-  padding: 4px;
-  border-radius: 20px;
-  width: 250px;
-  border: 2px solid ${theme.COLORS.BLACK};
-  flex-direction: row;
-  align-items: center;
 ;`
