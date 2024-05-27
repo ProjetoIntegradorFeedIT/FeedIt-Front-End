@@ -6,7 +6,6 @@ import { Container, Tela, SubTitulo, PopUpArea, NomeR, Botao, AddCriancaBotao, A
 import { FontAwesome5 } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { red } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 // imagens---------------------------------------------
 const Background = require('../../../assets/nuvens.png');
 // -----------------------------------------------------
@@ -20,6 +19,7 @@ export default function ResponsavelMain({navigation}: any) {
     // Variaveis-------------------------------------------
     const [criancas, setCriancas] = useState(false);
     const [id_user, setIdUser] = useState('');
+    const [estaTela, setEstaTela] = useState(true);
     // -----------------------------------------------------
     // const functions ----------------------------------------
     const getObject = async (key: string) => {
@@ -66,11 +66,12 @@ export default function ResponsavelMain({navigation}: any) {
         navigation.navigate('CadastroCrianca');
     }
     function irTelaCriancas(id_crianca: any){
-      getObject('usuario').then((value) => {
-        let all = {...value, id_crianca: id_crianca};
-        storeObject('usuario', all);
-      });
-      navigation.navigate('CriancaMain');
+      setEstaTela(false);
+      // getObject('usuario').then((value) => {
+      //   let all = {...value, id_crianca: id_crianca};
+      //   storeObject('usuario', all);
+      //   navigation.navigate('CriancaMain');
+      // });
     };
     // -----------------------------------------------------
     // useEffects-------------------------------------------
@@ -81,8 +82,10 @@ export default function ResponsavelMain({navigation}: any) {
     // Loop------------------------------------------------
     function attCriancas(){
         setTimeout(() => {
+          if (estaTela){
+            console.log(estaTela);
             validate();
-            attCriancas();
+          }
         }, 10000);
     };
     // -----------------------------------------------------

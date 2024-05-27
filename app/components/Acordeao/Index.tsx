@@ -18,6 +18,8 @@ interface AcordeaoProps {
 
 export default function Acordeao(props: AcordeaoProps) {
     const [expanded, setExpanded] = useState(false);
+    const [menosEnabled, setMenosEnabled] = useState(false);
+    const [maisEnabled, setMaisEnabled] = useState(false);
 
     const toggleExpand = () => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -25,32 +27,36 @@ export default function Acordeao(props: AcordeaoProps) {
     };
 
     const aumentarMissao = (id_c : any, id_m : any) => {
+        setMaisEnabled(true);
         axios.post('https://www.gmerola.com.br/feedit/api/responsavel/aumentar_missao', {
             'id_crianca': id_c,
             'id_missao': id_m,
         }).then(response => {
             console.log(response.data);
+            setMaisEnabled(false);
         })
     };
 
     const diminuirMissao = (id_c : any, id_m : any) => {
+        setMenosEnabled(true);
         axios.post('https://www.gmerola.com.br/feedit/api/responsavel/diminuir_missao', {
             'id_crianca': id_c,
             'id_missao': id_m,
         }).then(response => {
             console.log(response.data);
+            setMenosEnabled(false);
         })
     };
 
     return (
         <View style={{marginVertical: 4}}>
             {expanded ? 
-            <TouchableOpacity style={styles.SanfonaHeaderAberto} onPress={toggleExpand}>
+            <TouchableOpacity key={props.criancaNome + 'header'} style={styles.SanfonaHeaderAberto} onPress={toggleExpand}>
                 <Text style={styles.TituloSanfona}>{props.criancaNome}</Text>
                 <Icon name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme.COLORS.WHITE} />
             </TouchableOpacity>
             : 
-            <TouchableOpacity style={styles.SanfonaHeaderFechado} onPress={toggleExpand}>
+            <TouchableOpacity key={props.criancaNome + 'header'} style={styles.SanfonaHeaderFechado} onPress={toggleExpand}>
                 <Text style={styles.TituloSanfona}>{props.criancaNome}</Text>
                 <Icon name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme.COLORS.WHITE} />
             </TouchableOpacity>
@@ -61,7 +67,7 @@ export default function Acordeao(props: AcordeaoProps) {
                     {props.missoes && typeof props.missoes === 'object' && Object.entries(props.missoes).map(([key, value]) => (
                       <>
                         <View key={key} style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between', marginBottom: 12}}>
-                          <TouchableOpacity style={styles.Menos} onPress={() => diminuirMissao(props.id, value.id_missao)}>
+                          <TouchableOpacity disabled={menosEnabled} style={styles.Menos} onPress={() => diminuirMissao(props.id, value.id_missao)}>
                             <Icon name="minus" size={20} color={theme.COLORS.WHITE}/>
                           </TouchableOpacity>
                           <View style={{flexDirection: 'column', width: '60%'}}>
@@ -73,7 +79,7 @@ export default function Acordeao(props: AcordeaoProps) {
                               <Text style={styles.Porcentagem}>{value.progresso_tarefa}/{value.tamanho}</Text>
                             </View>
                           </View>
-                          <TouchableOpacity style={styles.Mais} onPress={() => aumentarMissao(props.id, value.id_missao)}>
+                          <TouchableOpacity disabled={maisEnabled} style={styles.Mais} onPress={() => aumentarMissao(props.id, value.id_missao)}>
                             <Icon name="plus" size={20} color={theme.COLORS.WHITE}/>
                           </TouchableOpacity>
                         </View>
