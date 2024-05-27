@@ -38,15 +38,16 @@ export default function Camera() {
         const postData = {
           imagem: photo.base64,
         };
-        axios.post('https://www.gmerola.com.br/feedit/api/img_recog/verificar', postData)
-        .then((response: { data: any; }) => {
-          // Manipule a resposta aqui
-          console.log('Resposta do servidor:', response.data);
-        })
-        .catch((error: any) => {
-          // Manipule o erro aqui
-          console.error('Erro ao fazer requisição:', error);
-        });
+        console.log(postData);
+        // axios.post('https://www.gmerola.com.br/feedit/api/img_recog/verificar', postData)
+        // .then((response: { data: any; }) => {
+        //   // Manipule a resposta aqui
+        //   console.log('Resposta do servidor:', response.data);
+        // })
+        // .catch((error: any) => {
+        //   // Manipule o erro aqui
+        //   console.error('Erro ao fazer requisição:', error);
+        // });
     }
   }
 

@@ -91,10 +91,12 @@ export default function Login({ navigation }: any) {
                         <FontAwesome5 name={IconeOlho} size={16} color="black"/>
                     </BotaoOlho>
                 </ViewInput>
-                <Button title="Criar conta" onPress={() => navigation.navigate('CadastroBi')}/>
-                <BotaoEntrar onPress={() => logar()}>
-                    <TouchableOpacity><Texto>Entrar</Texto></TouchableOpacity>
-                </BotaoEntrar>
+                <View style={{gap: 12}}>
+                    <BotaoEntrar onPress={() => logar()}>
+                        <Texto>Entrar</Texto>
+                    </BotaoEntrar>
+                    <Button title="Criar conta" onPress={() => navigation.navigate('CadastroBi')}/>
+                </View>
             </ContainerInput>
         </AreaTela>
     );
