@@ -3,6 +3,7 @@ import { AreaTela, ContainerInput, Title, TelaFundo, InputID, TelaPacientes, Bot
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import React, { useState } from 'react';
 import { text } from '@fortawesome/fontawesome-svg-core';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Menu = require('../../../assets/menu.png');
 
@@ -11,6 +12,19 @@ export default function TelaProfissional({navigation}: any) {
     const [justify, setJustify] = useState('center');
     const [padding, setPadding] = useState(0);
     const [pacienteID, setPacienteID] = useState('');
+    const [nomeDoProfissional, setNomeDoProfissional] = useState('');
+
+    const carregarNomeDoProfissional = async () => {
+        try {
+            const nomeArmazenado = await AsyncStorage.getItem('nome');
+            if (nomeArmazenado !== null) {
+                setNomeDoProfissional(nomeArmazenado);
+            }
+        } catch (error) {
+            console.error('Erro ao carregar o nome do profissional:', error);
+        }
+    };
+    carregarNomeDoProfissional();
 
     function modificaTela(){
         setJustify('flex-start')
@@ -27,7 +41,7 @@ export default function TelaProfissional({navigation}: any) {
         }}>
             <AreaTela style={{justifyContent: justify, paddingTop: padding}}>
                 <TelaFundo/>
-                <Title>Olá, Nome</Title>
+                <Title>Olá, {nomeDoProfissional}</Title>
                 <TitleMenor>Seus pacientes:</TitleMenor>
                 {!precionado ? 
                 <TelaPacientes>

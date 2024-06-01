@@ -4,6 +4,7 @@ import { Container, Title, Input, ContainerInput, BotaoConfirma, Texto, TitleInp
 import { FontAwesome5 } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // imagens---------------------------------------------
 const Background = require('../../../assets/nuvens.png');
@@ -21,8 +22,16 @@ export default function CadastroProfissional({navigation}: any) {
     const ativarMostrarSenha = () => {
         setMostrarSenha(!MostrarSenha);
         setMostrarConfSenha(!MostrarConfSenha);
-      };
+    };
 
+    const salvarNome = async () => {
+        try {
+            await AsyncStorage.setItem('nome', Nome);
+        } catch (error) {
+            console.log('Erro ao salvar o nome:', error);
+        }
+    };
+    
     const handlePress = () => {
         navigation.navigate('NavegacaoTestes');
     }
@@ -40,6 +49,7 @@ export default function CadastroProfissional({navigation}: any) {
     }
     };
     
+
 
     return (
         <Container>
@@ -69,7 +79,10 @@ export default function CadastroProfissional({navigation}: any) {
             </View>
             <View>
                 <BotaoConfirma>
-                    <TouchableOpacity onPress={verificaCaracteres}><Texto>Criar Perfil</Texto></TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        verificaCaracteres(); 
+                        salvarNome();
+                    }}><Texto>Criar Perfil</Texto></TouchableOpacity>
                 </BotaoConfirma>
                 
             </View>
