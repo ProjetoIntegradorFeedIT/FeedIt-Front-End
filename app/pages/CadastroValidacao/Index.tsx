@@ -6,7 +6,7 @@ import axios from "axios";
 // imagens---------------------------------------------
 const Background = require('../../../assets/nuvens.png');
 
-export default function CadastroValidacao({route} : any) {
+export default function CadastroValidacao({route} : any, navigation: any) {
   const [caracter1, setCaracter1] = useState('');
   const [caracter2, setCaracter2] = useState('');
   const [caracter3, setCaracter3] = useState('');
@@ -63,6 +63,7 @@ export default function CadastroValidacao({route} : any) {
           // cpf: Cpf.replace(/\D/g, ''), // Remove todos os caracteres não numéricos do CPF
       }).then(response => {
           alert('Cadastro realizado com sucesso');
+          navigation.navigate('Login');
       }).catch(error => {
           alert('Erro ao cadastrar');
           console.error('Erro ao fazer a requisição: ', error);

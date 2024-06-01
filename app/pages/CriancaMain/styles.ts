@@ -1,6 +1,23 @@
 import styled from 'styled-components/native';
 import theme from '../../themes/theme';
 
+export const TextoNivel = styled.Text`
+    font-size: 12px;
+    color: ${theme.COLORS.WHITE};
+    font-weight: bold;
+    background-color: ${theme.COLORS.BLUE_200};
+    border-radius: 90px;
+    border-width: 2px;
+    border-color: ${theme.COLORS.WHITE};
+    padding-left: 4px;
+    padding-right: 4px;
+`;
+
+export const Nivel = styled.View`
+    width: 30%;
+    align-items: center;
+`;
+
 export const Rodape = styled.View`
     background-color: ${theme.COLORS.WHITE};
     align-items: center;
@@ -57,6 +74,7 @@ export const BotaoMenuFechado = styled.TouchableOpacity`
     background-color: 'rgba(0, 0, 0, 0.6)';
     align-items: center;
     justify-content: center;
+    z-index: 1;
 `;
 
 export const BotaoMenuAberto = styled.TouchableOpacity`
@@ -67,12 +85,13 @@ export const BotaoMenuAberto = styled.TouchableOpacity`
     opacity: 0;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 `;
 
 export const Dinheiro = styled.View`
     flex-direction: row;
     gap: 5px;
-    width: 200px;
+    width: 30%;
     height: 60px;
     align-items: center;
     justify-content: flex-end;

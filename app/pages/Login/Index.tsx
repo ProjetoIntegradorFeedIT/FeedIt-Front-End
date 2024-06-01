@@ -56,11 +56,14 @@ export default function Login({ navigation }: any) {
                 navigation.navigate('CriancaMain');
             }
             else if (response.data.tipo === 'R') {
+                if (response.data.finalizou_crianca === 0) {
+                    navigation.navigate('CadastroCrianca');
+                }
                 navigation.navigate('ResponsavelMain');
             }
-            // else if (response.data.tipo === 'P') {
-            //     navigation.navigate('ProfissionalMain');
-            // }
+            else if (response.data.tipo === 'P') {
+                navigation.navigate('TelaProfissional');
+            }
         }).catch(error => {
             console.error("Erro ao fazer a requisição: ", error);
             alert('Erro ao logar');
@@ -88,10 +91,12 @@ export default function Login({ navigation }: any) {
                         <FontAwesome5 name={IconeOlho} size={16} color="black"/>
                     </BotaoOlho>
                 </ViewInput>
-                <Button title="Criar conta" onPress={() => navigation.navigate('CadastroBi')}/>
-                <BotaoEntrar onPress={() => logar()}>
-                    <TouchableOpacity><Texto>Entrar</Texto></TouchableOpacity>
-                </BotaoEntrar>
+                <View style={{gap: 12}}>
+                    <BotaoEntrar onPress={() => logar()}>
+                        <Texto>Entrar</Texto>
+                    </BotaoEntrar>
+                    <Button title="Criar conta" onPress={() => navigation.navigate('CadastroBi')}/>
+                </View>
             </ContainerInput>
         </AreaTela>
     );
