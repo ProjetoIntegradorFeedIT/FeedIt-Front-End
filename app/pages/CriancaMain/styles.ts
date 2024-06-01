@@ -1,6 +1,18 @@
 import styled from 'styled-components/native';
 import theme from '../../themes/theme';
 
+export const TextoNivel = styled.Text`
+    font-size: 12px;
+    color: ${theme.COLORS.WHITE};
+    font-weight: bold;
+    background-color: ${theme.COLORS.BLUE_200};
+    border-radius: 90px;
+    border-width: 2px;
+    border-color: ${theme.COLORS.WHITE};
+    padding-left: 4px;
+    padding-right: 4px;
+`;
+
 export const Nivel = styled.View`
     width: 30%;
     align-items: center;

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Text, View, Image, Modal, TouchableOpacity, ImageBackground } from 'react-native';
 import theme from '../../themes/theme';
-import { BotaoMenuAberto, BotaoMenuFechado, Dinheiro, Container, DisplayElementos, Footer, FooterDetailH, FooterDetailV, FooterDir, FooterEsq, Valor, Topo, MenuSuperior, FechaModalStyle, Linha, Meio, Chao, Rodape, Nivel } from './styles';
+import { TextoNivel, BotaoMenuAberto, BotaoMenuFechado, Dinheiro, Container, DisplayElementos, Footer, FooterDetailH, FooterDetailV, FooterDir, FooterEsq, Valor, Topo, MenuSuperior, FechaModalStyle, Linha, Meio, Chao, Rodape, Nivel } from './styles';
 import Icon from '@expo/vector-icons/FontAwesome5';
 import { FaSpinner } from "react-icons/fa";
 import axios from 'axios';
@@ -36,6 +36,10 @@ export default function CrincaMain( {navigation}: any ) {
   const [fundo, setFundo] = useState('');
   const [id_crianca, setIdCrianca] = useState(0);
   const [missoes, setMissoes] = useState<any[] | null>(null);
+  const [alimentacao, setAlimentacao] = useState(0);
+  const [energia, setEnergia] = useState(0);
+  const [felicidade, setFelicidade] = useState(0);
+  const [forca, setForca] = useState(0);
   // -------------------------------------------------------
   // const functions ----------------------------------------
   const getObject = async (key: string) => {
@@ -58,7 +62,7 @@ export default function CrincaMain( {navigation}: any ) {
     navigation.navigate('GuardaRoupa');
   };
   function openCamera() {
-    navigation.navigate('Camera');
+    navigation.navigate('Camera', {id_crianca: id_crianca});
   };
   function validate(){
     getObject('usuario').then((value) => {
@@ -87,6 +91,16 @@ export default function CrincaMain( {navigation}: any ) {
       setChapeu(response.data['crianca'].chapeu);
       setRoupa(response.data['crianca'].roupa);
       setFundo(response.data['crianca'].fundo);
+      axios.post("https://www.gmerola.com.br/feedit/api/digestao", {
+        id_pet: response.data['crianca'].id_pet
+      }).then(response => {
+        setAlimentacao(response.data.alimentacao);
+        setEnergia(response.data.energia);
+        setFelicidade(response.data.felicidade);
+        setForca(response.data.forca);
+      }).catch(error => {
+        console.error("Erro ao fazer a requisição: ", error);
+      });
     }).catch(error => {
       console.error("Erro ao fazer a requisição: ", error);
     });
@@ -160,9 +174,10 @@ export default function CrincaMain( {navigation}: any ) {
           <ImageBackground source={Maca} style={{ width: 60, height: 60, justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
             <Text style={{fontSize: 24, fontWeight: 'bold', color: theme.COLORS.YELLOW_100}}>{nivel}</Text>
           </ImageBackground>
+          <TextoNivel>{xpAtual}/{xpNecessario}</TextoNivel>
         </Nivel>
         <Dinheiro>
-          <Valor>000</Valor>
+          <Valor>{moedas}</Valor>
           <Image source={IconeMoeda} style={{width: 50, height: 50}}/>
         </Dinheiro>
       </Topo>
@@ -172,6 +187,7 @@ export default function CrincaMain( {navigation}: any ) {
         {chapeu === '' ? <Spinner />
         : 
           <>
+            <Text style={{position: 'absolute', top:160, zIndex: 4, fontSize: 24, color: theme.COLORS.WHITE, borderWidth: 2, borderBlockColor: theme.COLORS.WHITE, backgroundColor: theme.COLORS.BLUE_200, borderRadius: 90, paddingEnd: 8, width: '30%', textAlign: 'center'}}>{nome_pet}</Text>
             <Image source={{ uri: chapeu }} style={{ width: 400, height: 400, position: 'absolute', zIndex: 3}} />
             <Image source={{ uri: roupa }} style={{ width: 400, height: 400, position: 'absolute', zIndex:2}} />
             <Image source={{ uri: cor }} style={{ width: 400, height: 400, position: 'absolute', zIndex: 1}} />
@@ -187,10 +203,10 @@ export default function CrincaMain( {navigation}: any ) {
         <FooterDetailH/>
         <DisplayElementos>
           <FooterEsq>
-            <StatuBar statusName='Alimentação Saudável'></StatuBar>
-            <StatuBar statusName='Energia'></StatuBar>
-            <StatuBar statusName='Felicidade'></StatuBar>
-            <StatuBar statusName='Força'></StatuBar>
+            <StatuBar valor={alimentacao} statusName='Alimentação Saudável'></StatuBar>
+            <StatuBar valor={energia} statusName='Energia'></StatuBar>
+            <StatuBar valor={felicidade} statusName='Felicidade'></StatuBar>
+            <StatuBar valor={forca} statusName='Força'></StatuBar>
           </FooterEsq>
           <FooterDetailV/>
           <FooterDir>

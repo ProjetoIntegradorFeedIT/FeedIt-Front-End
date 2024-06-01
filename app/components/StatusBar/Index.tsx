@@ -5,21 +5,34 @@ import theme from '../../themes/theme';
 // Define a interface para os props (coloque aqui os dados que serão passados para o componente)
 interface StatuBarProps {
     statusName: string;
+    valor: number;
 }
 
 export default function StatuBar(props: StatuBarProps) {
     return (
         <View style={styles.container}>
             <Text style={styles.paragraph}>{props.statusName}</Text>
-            <View style={styles.barraTotal}>
-              <View style={styles.barraNulaEsquerda}>
-                <View style={styles.barraPreenchimentoNegativo}></View>
+            {props.valor < 0 ?
+              <View style={styles.barraTotal}>
+                <View style={styles.barraNulaEsquerda}>
+                  <View style={{width: props.valor/100*(-77), height: 6, backgroundColor: 'red', borderTopLeftRadius: 90, borderBottomLeftRadius: 90}}></View>
+                </View>
+                <View style={styles.divisao}></View>
+                <View style={styles.barraNulaDireita}>
+                  <View></View>
+                </View>
               </View>
-              <View style={styles.divisao}></View>
-              <View style={styles.barraNulaDireita}>
-                <View style={styles.barraPreenchimentoPositivo}></View>
+            :
+              <View style={styles.barraTotal}>
+                <View style={styles.barraNulaEsquerda}>
+                  <View></View>
+                </View>
+                <View style={styles.divisao}></View>
+                <View style={styles.barraNulaDireita}>
+                  <View style={{width: props.valor/100*(77), height: 6, backgroundColor: 'green', borderTopRightRadius: 90, borderBottomRightRadius: 90}}></View>
+                </View>
               </View>
-            </View>
+            }
         </View>
     );
 }
@@ -68,20 +81,6 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-start',
       flexDirection: 'row',
       alignItems: 'center',
-    },
-    barraPreenchimentoPositivo: {
-      width: 27,
-      height: 6,
-      backgroundColor: "green",
-      borderTopRightRadius: 90,
-      borderBottomRightRadius: 90,
-    },
-    barraPreenchimentoNegativo: {
-      width: 15,
-      height: 6,
-      backgroundColor: "red",
-      borderTopLeftRadius: 90,
-      borderBottomLeftRadius: 90,
     },
   });
   
