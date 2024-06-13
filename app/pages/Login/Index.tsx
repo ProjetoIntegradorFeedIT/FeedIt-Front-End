@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, TextInput, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -23,13 +23,22 @@ export default function Login({ navigation }: any) {
     }
 
     const storeObject = async (key: string, value: any) => {
-        try {
-          const jsonValue = JSON.stringify(value);
-          await AsyncStorage.setItem(key, jsonValue);
-        } catch (e) {
-          console.error(e);
-        }
-      };
+      try {
+        const jsonValue = JSON.stringify(value);
+        await AsyncStorage.setItem(key, jsonValue);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    const getObject = async (key: string) => {
+      try {
+        const jsonValue = await AsyncStorage.getItem(key);
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
     function verificaNomeEmail(input: string) {
         if (input.includes('@')) {
@@ -69,6 +78,31 @@ export default function Login({ navigation }: any) {
             alert('Erro ao logar');
         });
     }
+
+    function validate(){
+        getObject('usuario').then((value) => {
+          if(value === null){
+          }
+          else{
+            if (value.tipo === 'C') {
+                navigation.navigate('CriancaMain');
+            }
+            else if (value.tipo === 'R') {
+                if (value.finalizou_crianca === 0) {
+                    navigation.navigate('CadastroCrianca');
+                }
+                navigation.navigate('ResponsavelMain');
+            }
+            else if (value.tipo === 'P') {
+                navigation.navigate('TelaProfissional');
+            }
+          }
+        });
+    };
+
+    useEffect(() => {
+        validate();
+    }, []);
 
     return (
         <AreaTela>

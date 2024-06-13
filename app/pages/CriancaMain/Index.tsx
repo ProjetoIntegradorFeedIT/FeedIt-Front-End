@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Text, View, Image, Modal, TouchableOpacity, ImageBackground } from 'react-native';
+import { Text, View, Image, Modal, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import theme from '../../themes/theme';
 import { TextoNivel, BotaoMenuAberto, BotaoMenuFechado, Dinheiro, Container, DisplayElementos, Footer, FooterDetailH, FooterDetailV, FooterDir, FooterEsq, Valor, Topo, MenuSuperior, FechaModalStyle, Linha, Meio, Chao, Rodape, Nivel } from './styles';
 import Icon from '@expo/vector-icons/FontAwesome5';
@@ -12,12 +12,16 @@ const IconeMoeda = require('../../../assets/moedas.png');
 const GuardaRoupa = require('../../../assets/guardaRoupa.png');
 const Menu = require('../../../assets/menu.png');
 const Maca = require('../../../assets/maca.png');
+const dino = require('../../../assets/Dino1.png');
+const cap = require('../../../assets/Cap1.png');
+const dog = require('../../../assets/Dog1.png');
 // ---------------
 
 // Import de componentes
 import StatuBar from '../../components/StatusBar/Index';
 import ObjetivosBar from '../../components/ObjetivosBar/Index';
 import Spinner from '../../components/Spinner/Index';
+import { TextInput } from 'react-native-gesture-handler';
 // ---------------------
 
 export default function CrincaMain( {navigation}: any ) {
@@ -40,6 +44,9 @@ export default function CrincaMain( {navigation}: any ) {
   const [energia, setEnergia] = useState(0);
   const [felicidade, setFelicidade] = useState(0);
   const [forca, setForca] = useState(0);
+  const [primeiraVez, setPrimeiraVez] = useState(false);
+  const [criacao_pet_nome, setCriacaoPetNome] = useState('');
+  const [pet_selecionado, setPetSelecionado] = useState('');
   // -------------------------------------------------------
   // const functions ----------------------------------------
   const getObject = async (key: string) => {
@@ -103,6 +110,9 @@ export default function CrincaMain( {navigation}: any ) {
         console.error("Erro ao fazer a requisição: ", error);
       });
     }).catch(error => {
+      if(error.response.data = 'Pet não encontrado'){
+        setPrimeiraVez(true);
+      }
       console.error("Erro ao fazer a requisição: ", error);
     });
   };
@@ -122,6 +132,20 @@ export default function CrincaMain( {navigation}: any ) {
       console.error("Erro ao fazer a requisição: ", error);
     });
   };
+  function criaPet(){
+    axios.post("https://www.gmerola.com.br/feedit/api/crianca/criar_pet", {
+      id_crianca: id_crianca,
+      nome_pet: criacao_pet_nome,
+      tipo_pet: pet_selecionado
+    })
+    .then(response => {
+      console.log(response.data);
+      setPrimeiraVez(false);
+      getPet(id_crianca);
+    }).catch(error => {
+      console.error("Erro ao fazer a requisição: ", error);
+    });
+  }
   // ---------------
   // UseEffect
   useEffect(() => {
@@ -185,15 +209,41 @@ export default function CrincaMain( {navigation}: any ) {
       {/* -------------- */}
       {/* Meio da Tela ----------------------------------------------- */}
       <Meio>
-        {chapeu === '' ? <Spinner />
+        {primeiraVez ? 
+        <View style={{height: 400, alignItems: 'center'}}>
+          <Text style={{fontSize: 24, color: theme.COLORS.WHITE, backgroundColor: theme.COLORS.BLUE_300, paddingHorizontal: 16, borderWidth: 2, borderColor: theme.COLORS.WHITE, borderRadius: 45, marginBottom: 4}}>Escolha o seu pet</Text>
+          <ScrollView style={{flexDirection: 'row', marginBottom: 10}} contentContainerStyle={{alignItems: 'center'}}>
+            <TouchableOpacity onPress={() => setPetSelecionado('Dino')} style={{borderWidth: 4, borderColor: pet_selecionado == 'Dino' ? theme.COLORS.GREEN_100 : theme.COLORS.BLUE_200, backgroundColor: theme.COLORS.WHITE, borderRadius: 45, justifyContent: 'center', marginBottom: 4}}>
+              <Text style={{color: theme.COLORS.BLACK, textAlign: 'center', fontSize: 20}}>Dininho</Text>
+              <Image source={dino} style={{width: 250, height: 250}} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setPetSelecionado('Cap')} style={{borderWidth: 4, borderColor: pet_selecionado == 'Cap' ? theme.COLORS.GREEN_100 : theme.COLORS.BLUE_200, backgroundColor: theme.COLORS.WHITE, borderRadius: 45, justifyContent: 'center', marginBottom: 4}}>
+              <Text style={{color: theme.COLORS.BLACK, textAlign: 'center', fontSize: 20}}>Capivarinha</Text>
+              <Image source={cap} style={{width: 250, height: 250}} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setPetSelecionado('Dog')} style={{borderWidth: 4, borderColor: pet_selecionado == 'Dog' ? theme.COLORS.GREEN_100 : theme.COLORS.BLUE_200, backgroundColor: theme.COLORS.WHITE, borderRadius: 45, justifyContent: 'center'}}>
+              <Text style={{color: theme.COLORS.BLACK, textAlign: 'center', fontSize: 20}}>Cachorrinho</Text>
+              <Image source={dog} style={{width: 250, height: 250}} />
+            </TouchableOpacity>
+          </ScrollView>
+          <TextInput onChangeText={setCriacaoPetNome} placeholder='De um nome a ele' style={{backgroundColor: theme.COLORS.WHITE, borderWidth: 2, borderRadius: 15, borderColor: theme.COLORS.BLACK, fontSize: 20, paddingStart: 4}}></TextInput>
+          <TouchableOpacity onPress={() => criaPet()} style={{backgroundColor: theme.COLORS.GREEN_100, borderWidth: 2, borderColor: theme.COLORS.BLACK, borderRadius: 45, marginTop: 4}}>
+            <Text style={{fontSize: 20, color: theme.COLORS.WHITE, paddingHorizontal: 8, paddingVertical: 4, fontWeight: 'bold'}}>Escolher</Text>
+          </TouchableOpacity>
+        </View>
         : 
-          <>
-            <Text style={{position: 'absolute', top:160, zIndex: 4, fontSize: 24, color: theme.COLORS.WHITE, borderWidth: 2, borderBlockColor: theme.COLORS.WHITE, backgroundColor: theme.COLORS.BLUE_200, borderRadius: 90, paddingEnd: 8, width: '30%', textAlign: 'center'}}>{nome_pet}</Text>
-            <Image source={{ uri: chapeu }} style={{ width: 400, height: 400, position: 'absolute', zIndex: 3}} />
-            <Image source={{ uri: roupa }} style={{ width: 400, height: 400, position: 'absolute', zIndex:2}} />
-            <Image source={{ uri: cor }} style={{ width: 400, height: 400, position: 'absolute', zIndex: 1}} />
-            {/* <Image source={{ uri: fundo }} style={{ width: 400, height: 400, position: 'absolute', zIndex: -1}} /> */}
-          </>
+        <>
+          {chapeu === '' ? <Spinner />
+          : 
+            <>
+              <Text style={{position: 'absolute', top:160, zIndex: 4, fontSize: 24, color: theme.COLORS.WHITE, borderWidth: 2, borderBlockColor: theme.COLORS.WHITE, backgroundColor: theme.COLORS.BLUE_200, borderRadius: 90, paddingEnd: 8, width: '30%', textAlign: 'center'}}>{nome_pet}</Text>
+              <Image source={{ uri: chapeu }} style={{ width: 400, height: 400, position: 'absolute', zIndex: 3}} />
+              <Image source={{ uri: roupa }} style={{ width: 400, height: 400, position: 'absolute', zIndex:2}} />
+              <Image source={{ uri: cor }} style={{ width: 400, height: 400, position: 'absolute', zIndex: 1}} />
+              {/* <Image source={{ uri: fundo }} style={{ width: 400, height: 400, position: 'absolute', zIndex: -1}} /> */}
+            </>
+          }
+        </>
         }
         <Rodape/>
         <Chao/>
