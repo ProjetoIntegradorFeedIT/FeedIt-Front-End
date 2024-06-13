@@ -1,10 +1,11 @@
 
-import { View, Button } from 'react-native';
+import { View, Button, Alert } from 'react-native';
 import { Container, Title, Input, ContainerInput, BotaoConfirma, Texto, TitleInput, Tela, BotaoOlho, InputSenha, ViewInput } from './style';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 // imagens---------------------------------------------
 const Background = require('../../../assets/nuvens.png');
@@ -16,6 +17,7 @@ export default function CadastroProfissional({navigation}: any) {
     const [Email, setEmail] = useState('');
     const [Senha, setSenha] = useState('');
     const [ConfSenha, setConfSenha] = useState('');
+    const [Crm, setCrm] = useState('');
     const [MostrarSenha, setMostrarSenha] = useState(false);
     const [MostrarConfSenha, setMostrarConfSenha] = useState(false);
 
@@ -24,32 +26,50 @@ export default function CadastroProfissional({navigation}: any) {
         setMostrarConfSenha(!MostrarConfSenha);
     };
 
-    const salvarNome = async () => {
-        try {
-            await AsyncStorage.setItem('nome', Nome);
-        } catch (error) {
-            console.log('Erro ao salvar o nome:', error);
-        }
-    };
-    
-    const handlePress = () => {
-        navigation.navigate('NavegacaoTestes');
-    }
-
     function temCaracteresEspeciais(string: string) {
         return /[^\w\s]/.test(string);
     }
 
-    function verificaCaracteres(){
+    const validaConta = () => {
+        const regex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
         if (temCaracteresEspeciais(Nome)) {
             alert('Nome não pode conter caracteres especiais')
         }
-    function EsconderSenha (){
-        
-    }
+        if (!regex.test(Email)) {
+          Alert.alert('Endereço de e-mail inválido');
+        }
+        if (Senha !== ConfSenha) {
+          Alert.alert('Senhas não conferem');
+        }
+        if (Crm.length !== 10) {
+          Alert.alert('CPF inválido');
+        }
     };
-    
 
+    function formataCRM(crm: string): string {
+        crm = crm.replace(/[^a-zA-Z0-9-]/g, '');
+        crm = crm.replace(/(\d{7})(\d{1,2})$/, '$1-$2'); // Coloca um traço antes dos últimos 2 dígitos
+        return crm;
+    }
+
+    function cadastrar(){
+        if (Nome === '' || Email === '' || Senha === '' || ConfSenha === '' || Crm === '') {
+            alert('Preencha todos os campos');
+        } else {
+            validaConta();
+        }
+        axios.post('https://www.gmerola.com.br/feedit/api/cadastro/profissional', {
+            crm: Crm,
+            nome: Nome,
+            email: Email,
+            senha: Senha
+        }).then(response => {
+            alert(response.data.message)
+            navigation.navigate('Login')
+        }).catch(error => {
+            alert(error.response.data.message)
+        });
+    };
 
     return (
         <Container>
@@ -58,12 +78,12 @@ export default function CadastroProfissional({navigation}: any) {
                 <Title>Cadastro</Title>
                 
                 <ContainerInput>
+                    <TitleInput>Nome</TitleInput>
+                    <Input value={Nome} onChange={(event) => setNome(event.nativeEvent.text)}/>
                     <TitleInput>Email</TitleInput>
-                    <Input/>
+                    <Input value={Email} onChange={(event) => setEmail(event.nativeEvent.text)}/>
                     <TitleInput>CRM</TitleInput>
-                    <Input onChangeText={(text) => setNome(text)}/>
-                    <TitleInput>CPF</TitleInput>
-                    <Input/>
+                    <Input maxLength={10} value={Crm} onChange={(event) => setCrm(formataCRM(event.nativeEvent.text))}/>
                     <TitleInput>Senha</TitleInput>
                     <ViewInput>
                         <InputSenha secureTextEntry={!MostrarSenha} value={Senha} onChangeText={setSenha}/>
@@ -80,8 +100,7 @@ export default function CadastroProfissional({navigation}: any) {
             <View>
                 <BotaoConfirma>
                     <TouchableOpacity onPress={() => {
-                        verificaCaracteres(); 
-                        salvarNome();
+                        cadastrar();
                     }}><Texto>Criar Perfil</Texto></TouchableOpacity>
                 </BotaoConfirma>
                 

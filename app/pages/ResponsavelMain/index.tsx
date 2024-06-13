@@ -67,11 +67,11 @@ export default function ResponsavelMain({navigation}: any) {
     }
     function irTelaCriancas(id_crianca: any){
       setEstaTela(false);
-      // getObject('usuario').then((value) => {
-      //   let all = {...value, id_crianca: id_crianca};
-      //   storeObject('usuario', all);
-      //   navigation.navigate('CriancaMain');
-      // });
+      getObject('usuario').then((value) => {
+        let all = {...value, id_crianca: id_crianca};
+        storeObject('usuario', all);
+        navigation.navigate('CriancaMain');
+      });
     };
     // -----------------------------------------------------
     // useEffects-------------------------------------------

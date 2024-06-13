@@ -94,6 +94,7 @@ export default function CrincaMain( {navigation}: any ) {
       axios.post("https://www.gmerola.com.br/feedit/api/digestao", {
         id_pet: response.data['crianca'].id_pet
       }).then(response => {
+        console.log(response.data);
         setAlimentacao(response.data.alimentacao);
         setEnergia(response.data.energia);
         setFelicidade(response.data.felicidade);

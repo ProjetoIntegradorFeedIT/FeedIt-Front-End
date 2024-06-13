@@ -37,7 +37,7 @@ export const TitleMenor = styled.Text`
   font-size: 20px;
   font-weight: bold;
   padding: 20px;
-  margin-top: 20px;
+  margin-top: 8px;
   text-align: center;
 ;`
 

@@ -1,10 +1,22 @@
 import styled from 'styled-components/native';
 import theme from '../../themes/theme';
 
+export const TextoTabela = styled.Text`
+  font-size: 16px;
+  color: ${theme.COLORS.BLACK};
+  text-align: center;
+`;
+
+export const TextoTabelaTitulo = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${theme.COLORS.BLACK};
+  text-align: center;
+`;
+
 export const AreaTela = styled.View`
   flex: 1;
   align-items: center;
-  
   position: absolute;
   position: top;
   background-color: ${theme.COLORS.BLUE_100};
