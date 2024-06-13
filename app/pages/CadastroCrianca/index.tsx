@@ -30,6 +30,14 @@ export default function CadastroCrianca({navigation}: any) {
         console.error(e);
       }
     };
+    const storeObject = async (key: string, value: any) => {
+      try {
+        const jsonValue = JSON.stringify(value);
+        await AsyncStorage.setItem(key, jsonValue);
+      } catch (e) {
+        console.error(e);
+      }
+    };
     // -------------------------------------------------------
 
     function validate(){
@@ -79,6 +87,11 @@ export default function CadastroCrianca({navigation}: any) {
             "senha": Senha
         }).then(response => {
             alert('Criança cadastrada com sucesso');
+            getObject('usuario').then((value) => {
+              let all = {...value, finalizou_crianca: 1};
+              storeObject('usuario', all);
+              navigation.navigate('ResponsavelMain');
+            });
             navigation.navigate('ResponsavelMain');
         }).catch(error => {
         });

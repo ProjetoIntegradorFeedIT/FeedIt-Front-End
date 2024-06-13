@@ -47,6 +47,7 @@ export default function CrincaMain( {navigation}: any ) {
   const [primeiraVez, setPrimeiraVez] = useState(false);
   const [criacao_pet_nome, setCriacaoPetNome] = useState('');
   const [pet_selecionado, setPetSelecionado] = useState('');
+  const [id_cor, setIdCor] = useState('');
   // -------------------------------------------------------
   // const functions ----------------------------------------
   const getObject = async (key: string) => {
@@ -132,11 +133,24 @@ export default function CrincaMain( {navigation}: any ) {
       console.error("Erro ao fazer a requisição: ", error);
     });
   };
+  function trocaPet(tipo: any){
+    setPetSelecionado(tipo);
+    if (tipo == 'Dino'){
+      setIdCor(4);
+    }
+    else if (tipo == 'Cap'){
+      setIdCor(1);
+    }
+    else if (tipo == 'Dog'){
+      setIdCor(7);
+    }
+  };
   function criaPet(){
     axios.post("https://www.gmerola.com.br/feedit/api/crianca/criar_pet", {
       id_crianca: id_crianca,
       nome_pet: criacao_pet_nome,
-      tipo_pet: pet_selecionado
+      tipo_pet: pet_selecionado,
+      id_cor: id_cor
     })
     .then(response => {
       console.log(response.data);
@@ -213,15 +227,15 @@ export default function CrincaMain( {navigation}: any ) {
         <View style={{height: 400, alignItems: 'center'}}>
           <Text style={{fontSize: 24, color: theme.COLORS.WHITE, backgroundColor: theme.COLORS.BLUE_300, paddingHorizontal: 16, borderWidth: 2, borderColor: theme.COLORS.WHITE, borderRadius: 45, marginBottom: 4}}>Escolha o seu pet</Text>
           <ScrollView style={{flexDirection: 'row', marginBottom: 10}} contentContainerStyle={{alignItems: 'center'}}>
-            <TouchableOpacity onPress={() => setPetSelecionado('Dino')} style={{borderWidth: 4, borderColor: pet_selecionado == 'Dino' ? theme.COLORS.GREEN_100 : theme.COLORS.BLUE_200, backgroundColor: theme.COLORS.WHITE, borderRadius: 45, justifyContent: 'center', marginBottom: 4}}>
+            <TouchableOpacity onPress={() => trocaPet('Dino')} style={{borderWidth: 4, borderColor: pet_selecionado == 'Dino' ? theme.COLORS.GREEN_100 : theme.COLORS.BLUE_200, backgroundColor: theme.COLORS.WHITE, borderRadius: 45, justifyContent: 'center', marginBottom: 4}}>
               <Text style={{color: theme.COLORS.BLACK, textAlign: 'center', fontSize: 20}}>Dininho</Text>
               <Image source={dino} style={{width: 250, height: 250}} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setPetSelecionado('Cap')} style={{borderWidth: 4, borderColor: pet_selecionado == 'Cap' ? theme.COLORS.GREEN_100 : theme.COLORS.BLUE_200, backgroundColor: theme.COLORS.WHITE, borderRadius: 45, justifyContent: 'center', marginBottom: 4}}>
+            <TouchableOpacity onPress={() => trocaPet('Cap')} style={{borderWidth: 4, borderColor: pet_selecionado == 'Cap' ? theme.COLORS.GREEN_100 : theme.COLORS.BLUE_200, backgroundColor: theme.COLORS.WHITE, borderRadius: 45, justifyContent: 'center', marginBottom: 4}}>
               <Text style={{color: theme.COLORS.BLACK, textAlign: 'center', fontSize: 20}}>Capivarinha</Text>
               <Image source={cap} style={{width: 250, height: 250}} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setPetSelecionado('Dog')} style={{borderWidth: 4, borderColor: pet_selecionado == 'Dog' ? theme.COLORS.GREEN_100 : theme.COLORS.BLUE_200, backgroundColor: theme.COLORS.WHITE, borderRadius: 45, justifyContent: 'center'}}>
+            <TouchableOpacity onPress={() => trocaPet('Dog')} style={{borderWidth: 4, borderColor: pet_selecionado == 'Dog' ? theme.COLORS.GREEN_100 : theme.COLORS.BLUE_200, backgroundColor: theme.COLORS.WHITE, borderRadius: 45, justifyContent: 'center'}}>
               <Text style={{color: theme.COLORS.BLACK, textAlign: 'center', fontSize: 20}}>Cachorrinho</Text>
               <Image source={dog} style={{width: 250, height: 250}} />
             </TouchableOpacity>
